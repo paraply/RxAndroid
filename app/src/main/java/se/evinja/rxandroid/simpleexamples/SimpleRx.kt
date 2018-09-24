@@ -2,6 +2,8 @@ package se.evinja.rxandroid.simpleexamples
 
 import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.BehaviorSubject
 
 object SimpleRx {
 
@@ -25,6 +27,29 @@ object SimpleRx {
 
         someInfo.accept("3")
         //NOTE Relays will never receive onError/onComplete
+
+    }
+
+    fun subjects() {
+        val behaviourSubject = BehaviorSubject.createDefault("24")
+        val disposable = behaviourSubject.subscribe({ newValue -> //onNext
+            println("🕺 behaviorSubject subscription: $newValue")
+        }, { error -> // onError
+            println("🕺 error: ${error.localizedMessage}")
+        }, { //onCompleted
+            println("🕺 Completed")
+        }, { disposable -> //onSubscribed
+            println("🕺 Subscribed")
+        })
+
+        behaviourSubject.onNext("34")
+        behaviourSubject.onNext("48")
+        behaviourSubject.onNext("48") //Duplicates shown as new events by default
+
+        //1 onError
+        val someException = IllegalArgumentException("Fake error")
+        behaviourSubject.onError(someException) //Push the error to te subject
+        behaviourSubject.onNext("109") //This will never show
     }
 
 }

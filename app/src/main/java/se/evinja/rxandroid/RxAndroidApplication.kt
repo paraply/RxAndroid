@@ -7,6 +7,7 @@ class RxAndroidApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
-        SimpleRx.simpleValues()
+        //SimpleRx.simpleValues()
+        SimpleRx.subjects()
     }
 }
