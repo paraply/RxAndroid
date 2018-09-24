@@ -47,9 +47,13 @@ object SimpleRx {
         behaviourSubject.onNext("48") //Duplicates shown as new events by default
 
         //1 onError
-        val someException = IllegalArgumentException("Fake error")
-        behaviourSubject.onError(someException) //Push the error to te subject
-        behaviourSubject.onNext("109") //This will never show
+        //val someException = IllegalArgumentException("Fake error")
+        //behaviourSubject.onError(someException) //Push the error to te subject
+        //behaviourSubject.onNext("109") //This will never show
+
+        //2 onComplete
+        behaviourSubject.onComplete()
+        behaviourSubject.onNext("1111") //This will never show
     }
 
 }
