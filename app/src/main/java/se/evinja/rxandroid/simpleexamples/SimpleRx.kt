@@ -2,12 +2,15 @@ package se.evinja.rxandroid.simpleexamples
 
 import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.toObservable
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
+import java.util.concurrent.TimeUnit
 
 object SimpleRx {
 
@@ -81,6 +84,14 @@ object SimpleRx {
         val observer = observable.subscribe{ someString ->
             println("🍄 Another subscriber: $someString")
         }.addTo(bag)
+    }
+
+    fun creatingObservables() {
+        val observable = Observable.just("23") //Gives us an observalbe of just one event
+        val observable2 = Observable.interval(300, TimeUnit.MILLISECONDS).timeInterval(AndroidSchedulers.mainThread())
+        val userIds = arrayOf(1,2,3,4,5,5,6)
+        val observable3 = userIds.toObservable()
+
     }
 
 }
