@@ -1,9 +1,13 @@
 package se.evinja.rxandroid.simpleexamples
 
 import com.jakewharton.rxrelay2.BehaviorRelay
+import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.addTo
 import io.reactivex.subjects.BehaviorSubject
+import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.experimental.launch
 
 object SimpleRx {
 
@@ -54,6 +58,29 @@ object SimpleRx {
         //2 onComplete
         behaviourSubject.onComplete()
         behaviourSubject.onNext("1111") //This will never show
+    }
+
+    fun basicObservable() {
+        //The observable
+        val observable = Observable.create<String> { observer ->
+            //The lambda will be called for every subscriber by default
+            println("🍄 ~~Observable logic being triggered ~~")
+
+            //Do work on a background thread
+            launch {
+                delay(1000)
+                observer.onNext("some value 23")
+                observer.onComplete()
+            }
+        }
+
+        observable.subscribe{someString ->
+            println("🍄 New value: $someString")
+        }.addTo(bag)
+
+        val observer = observable.subscribe{ someString ->
+            println("🍄 Another subscriber: $someString")
+        }.addTo(bag)
     }
 
 }

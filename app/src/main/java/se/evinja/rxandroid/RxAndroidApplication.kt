@@ -8,6 +8,6 @@ class RxAndroidApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         //SimpleRx.simpleValues()
-        SimpleRx.subjects()
+        SimpleRx.basicObservable()
     }
 }
