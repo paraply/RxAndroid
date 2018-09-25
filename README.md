@@ -37,23 +37,38 @@ disposable.disposedBy(bag) //Remeber to clean up supscriptions
 
 ### Observable types
 There are three types of observables
-* Relays
-Easiest, gives the ability to get and set at any time. Gives the ability to be notified when a variable changes.
+* Relays are the simplest type, it gives the ability to get and set at any time. Notifies when a variable changes.
 Never error outs or completes
 
-* Subjects
-  Can receive onError/onCompleted after which they die.
+* Subjects can receive onError/onCompleted after which they die.
   They can be subscribers and observables - you can bind the output from one observable and make it anothers input.
   There are 3 different flavors of subjects:
   - Behavior  - Receives last event of the default one
   - Publish   - Begins with no values, will only get new events
   - Replay    - n number of previous events
 
-* Observables
+* Observables are the most advanced type, they can be used for receiving data from network etc.
+```kotlin
+        val observable = Observable.create<String> { observer ->
+            //The lambda will be called for every subscriber by default
+            println("🍄 ~~ Observable logic being triggered ~~")
 
-* Traits - One of tasks that can be wrapped in a single observable
-  - Single will only receive one onNext/onError
-  - Completable will only receive one onComplete/onError
-  - Maybe will either receive one onError/onComplete or possible onError
+            //Do work on a background thread
+            launch {
+                delay(1000)
+                observer.onNext("some value 23")
+                observer.onComplete()
+            }
+        }
+
+        observable.subscribe{someString ->
+            println("🍄 New value: $someString")
+        }.addTo(bag)
+```
+### Observable traits
+These are one of tasks that can be wrapped in a single observable
+* Single will only receive one onNext/onError
+* Completable will only receive one onComplete/onError
+* Maybe will either receive one onError/onComplete or possible onError
   
 
