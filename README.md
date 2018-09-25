@@ -72,3 +72,8 @@ These are one of tasks that can be wrapped in a single observable
 * Maybe will either receive one onError/onComplete or possible onError
   
 
+## Architecture with Rx - MVP and MVVM
+* Design APIs as async
+* Return Observables when possible
+* Observe on the main thread
+
